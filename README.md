@@ -7,7 +7,7 @@ A function that loads an Sightly file and transforms it to HTML.
 ## Install
 
 ```
-npm install rosid-handler-ejs
+npm install rosid-handler-sightly
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install rosid-handler-ejs
 ### API
 
 ```js
-const handler = require('rosid-handler-ejs')
+const handler = require('rosid-handler-sightly')
 
 handler('index.ejs').then((data) => {})
 handler('index.xml').then((data) => {})
@@ -31,14 +31,14 @@ Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes arr
 ```json
 {
 	"name"    : "EJS",
-	"path"    : "[^_]*.{html,ejs}*",
-	"handler" : "rosid-handler-ejs"
+	"path"    : "[^_]*.{html,htl}*",
+	"handler" : "rosid-handler-sightly"
 }
 ```
 
 ```html
 <!-- index.ejs -->
-<h1>Hello <%= 'World' %></h1>
+<h1>Hello ${'World'}</h1>
 ```
 
 ```html
@@ -66,7 +66,7 @@ The data in `opts.data` will be used to render your template. `opts.data` can ei
 
 ### Custom data per file
 
-Create a file with the name `filename.data.json` or `filename.data.js` along your `filename.ejs` to add or overwrite data from `opts.data`. You can disable this behaviour with the `localOverwrites` option.
+Create a file with the name `filename.data.json` or `filename.data.js` along your `filename.htl` to add or overwrite data from `opts.data`. You can disable this behaviour with the `localOverwrites` option.
 
 ### Environment
 
