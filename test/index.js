@@ -31,7 +31,7 @@ describe('index()', function() {
 		const structure = await fsify([
 			{
 				type: fsify.FILE,
-				name: `${ uuid() }.ejs`
+				name: `${ uuid() }.htl`
 			}
 		])
 
@@ -49,7 +49,7 @@ describe('index()', function() {
 
 	it('should return an error when called with a fictive filePath', async function() {
 
-		return index(`${ uuid() }.ejs`).then(() => {
+		return index(`${ uuid() }.htl`).then(() => {
 
 			throw new Error('Returned without error')
 
@@ -62,35 +62,12 @@ describe('index()', function() {
 
 	})
 
-	it('should return an error when called with invalid EJS', async function() {
+	it('should load empty Sightly and transform it to HTML', async function() {
 
 		const structure = await fsify([
 			{
 				type: fsify.FILE,
-				name: `${ uuid() }.ejs`,
-				contents: '<% + %>'
-			}
-		])
-
-		return index(structure[0].name).then(() => {
-
-			throw new Error('Returned without error')
-
-		}, (err) => {
-
-			assert.isNotNull(err)
-			assert.isDefined(err)
-
-		})
-
-	})
-
-	it('should load empty EJS and transform it to HTML', async function() {
-
-		const structure = await fsify([
-			{
-				type: fsify.FILE,
-				name: `${ uuid() }.ejs`,
+				name: `${ uuid() }.htl`,
 				contents: ''
 			}
 		])
@@ -101,13 +78,13 @@ describe('index()', function() {
 
 	})
 
-	it('should load EJS and transform it to HTML', async function() {
+	it('should load Sightly and transform it to HTML', async function() {
 
 		const structure = await fsify([
 			{
 				type: fsify.FILE,
-				name: `${ uuid() }.ejs`,
-				contents: '<%= environment %>'
+				name: `${ uuid() }.htl`,
+				contents: '${ environment }'
 			}
 		])
 
@@ -117,46 +94,15 @@ describe('index()', function() {
 
 	})
 
-	it('should load EJS from a relative path and transform it to HTML', async function() {
-
-		const folderName = uuid()
-		const fileName = `${ uuid() }.ejs`
-
-		const structure = await fsify([
-			{
-				type: fsify.DIRECTORY,
-				name: folderName,
-				contents: [
-					{
-						type: fsify.FILE,
-						name: fileName,
-						contents: 'value'
-					}
-				]
-			},
-			{
-				type: fsify.FILE,
-				name: `${ uuid() }.ejs`,
-				contents: `<%= include('./${ folderName }/${ fileName }') %>`
-			}
-		])
-
-		const file = path.relative(process.cwd(), structure[1].name)
-		const result = await index(file)
-
-		assert.strictEqual(result, structure[0].contents[0].contents)
-
-	})
-
-	it('should load EJS and transform it to HTML with custom global data', async function() {
+	it('should load Sightly and transform it to HTML with custom global data', async function() {
 
 		const data = { key: 'value' }
 
 		const structure = await fsify([
 			{
 				type: fsify.FILE,
-				name: `${ uuid() }.ejs`,
-				contents: '<%= key %>'
+				name: `${ uuid() }.htl`,
+				contents: '${key}'
 			}
 		])
 
@@ -166,15 +112,15 @@ describe('index()', function() {
 
 	})
 
-	it('should load EJS and transform it to HTML with external custom global data', async function() {
+	it('should load Sightly and transform it to HTML with external custom global data', async function() {
 
 		const data = { key: 'value' }
 
 		const structure = await fsify([
 			{
 				type: fsify.FILE,
-				name: `${ uuid() }.ejs`,
-				contents: '<%= key %>'
+				name: `${ uuid() }.htl`,
+				contents: '${key}'
 			},
 			{
 				type: fsify.FILE,
@@ -189,13 +135,13 @@ describe('index()', function() {
 
 	})
 
-	it('should load EJS and transform it to optimized HTML when optimization enabled', async function() {
+	it('should load Sightly and transform it to optimized HTML when optimization enabled', async function() {
 
 		const structure = await fsify([
 			{
 				type: fsify.FILE,
-				name: `${ uuid() }.ejs`,
-				contents: '<%= environment %>'
+				name: `${ uuid() }.htl`,
+				contents: '${environment}'
 			}
 		])
 
@@ -205,7 +151,7 @@ describe('index()', function() {
 
 	})
 
-	it('should load EJS and transform it to HTML with custom data from a JS data file', async function() {
+	it('should load Sightly and transform it to HTML with custom data from a JS data file', async function() {
 
 		const fileName = uuid()
 		const data = { key: 'value' }
@@ -213,8 +159,8 @@ describe('index()', function() {
 		const structure = await fsify([
 			{
 				type: fsify.FILE,
-				name: `${ fileName }.ejs`,
-				contents: '<%= key %>'
+				name: `${ fileName }.htl`,
+				contents: '${key}'
 			},
 			{
 				type: fsify.FILE,
@@ -229,7 +175,7 @@ describe('index()', function() {
 
 	})
 
-	it('should load EJS and transform it to HTML with custom data from a JSON data file', async function() {
+	it('should load Sightly and transform it to HTML with custom data from a JSON data file', async function() {
 
 		const fileName = uuid()
 		const data = { key: 'value' }
@@ -237,8 +183,8 @@ describe('index()', function() {
 		const structure = await fsify([
 			{
 				type: fsify.FILE,
-				name: `${ fileName }.ejs`,
-				contents: '<%= key %>'
+				name: `${ fileName }.htl`,
+				contents: '${key}'
 			},
 			{
 				type: fsify.FILE,
@@ -253,30 +199,6 @@ describe('index()', function() {
 
 	})
 
-	it('should load EJS and transform it to HTML without custom data when disabling localOverwrites', async function() {
-
-		const fileName = uuid()
-		const data = { key: 'value' }
-
-		const structure = await fsify([
-			{
-				type: fsify.FILE,
-				name: `${ fileName }.ejs`,
-				contents: `<%= typeof key === 'undefined' ? '' : key %>`
-			},
-			{
-				type: fsify.FILE,
-				name: `${ fileName }.data.json`,
-				contents: JSON.stringify(data)
-			}
-		])
-
-		const result = await index(structure[0].name, { localOverwrites: false })
-
-		assert.strictEqual(result, '')
-
-	})
-
 	describe('.in()', function() {
 
 		it('should be a function', function() {
@@ -287,13 +209,13 @@ describe('index()', function() {
 
 		it('should return a default extension', function() {
 
-			assert.strictEqual(index.in(), '.ejs')
+			assert.strictEqual(index.in(), '.htl')
 
 		})
 
 		it('should return a default extension when called with invalid options', function() {
 
-			assert.strictEqual(index.in(''), '.ejs')
+			assert.strictEqual(index.in(''), '.htl')
 
 		})
 

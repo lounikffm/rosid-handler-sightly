@@ -3,7 +3,7 @@
 const util = require('util')
 const fs = require('fs')
 const locate = require('./locate')
-const ejs = require('./ejs')
+const sightly = require('./sightly')
 const data = require('./data')
 
 /**
@@ -22,7 +22,7 @@ module.exports = async function(filePath, opts = {}) {
 	const json = await data(dataPath, opts)
 	const str = await util.promisify(fs.readFile)(filePath, 'utf8')
 
-	return ejs(filePath, str, json)
+	return sightly(str, json)
 
 }
 
@@ -34,7 +34,7 @@ module.exports = async function(filePath, opts = {}) {
  */
 module.exports.in = function(opts = {}) {
 
-	return opts.in == null ? '.ejs' : opts.in
+	return opts.in == null ? '.htl' : opts.in
 
 }
 
@@ -56,7 +56,7 @@ module.exports.out = function(opts = {}) {
  * @public
  */
 module.exports.cache = [
-	'**/*.ejs',
+	'**/*.htl',
 	'**/*.js',
 	'**/*.json'
 ]

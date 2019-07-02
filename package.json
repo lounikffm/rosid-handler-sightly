@@ -1,24 +1,24 @@
 {
-  "name": "rosid-handler-ejs",
+  "name": "rosid-handler-sightly",
   "version": "9.2.0",
   "authors": [
     "Tobias Reich <tobias@electerious.com>"
   ],
-  "description": "Load EJS templates and render them",
+  "description": "Load Sightly templates and render them",
   "main": "src/index.js",
   "keywords": [
     "rosid",
     "handler",
     "transform",
     "compile",
-    "ejs",
+    "sightly",
     "html"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/electerious/rosid-handler-ejs",
+  "homepage": "https://https://github.com/lounikffm/rosid-handler-sightly",
   "repository": {
     "type": "git",
-    "url": "https://github.com/electerious/rosid-handler-ejs.git"
+    "url": "https://github.com/lounikffm/rosid-handler-sightly.git"
   },
   "files": [
     "src"
@@ -28,6 +28,7 @@
     "test": "nyc node_modules/mocha/bin/_mocha"
   },
   "dependencies": {
+    "@adobe/htlengine": "^3.2.0",
     "continuous-stealthy-require": "^1.0.0",
     "ejs": "^2.5.9",
     "locate-path": "^5.0.0",
