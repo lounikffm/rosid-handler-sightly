@@ -57,6 +57,7 @@ module.exports.out = function(opts = {}) {
  */
 module.exports.cache = [
 	'**/*.htl',
+	'**/*.html',
 	'**/*.js',
 	'**/*.json'
 ]
