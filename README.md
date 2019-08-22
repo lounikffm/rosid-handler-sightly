@@ -1,6 +1,6 @@
 # rosid-handler-sightly
 
-[![Travis Build Status](https://travis-ci.org/electerious/rosid-handler-ejs.svg?branch=master)](https://travis-ci.org/electerious/rosid-handler-ejs) [![Coverage Status](https://coveralls.io/repos/github/electerious/rosid-handler-ejs/badge.svg?branch=master)](https://coveralls.io/github/electerious/rosid-handler-ejs?branch=master)  [![Dependencies](https://david-dm.org/electerious/rosid-handler-ejs.svg)](https://david-dm.org/electerious/rosid-handler-ejs#info=dependencies) [![Greenkeeper badge](https://badges.greenkeeper.io/electerious/rosid-handler-ejs.svg)](https://greenkeeper.io/)
+[![Travis Build Status](https://travis-ci.org/lounikffm/rosid-handler-ejs.svg?branch=master)](https://travis-ci.org/lounikffm/rosid-handler-ejs) [![Coverage Status](https://coveralls.io/repos/github/lounikffm/rosid-handler-ejs/badge.svg?branch=master)](https://coveralls.io/github/lounikffm/rosid-handler-ejs?branch=master)  [![Dependencies](https://david-dm.org/lounikffm/rosid-handler-ejs.svg)](https://david-dm.org/lounikffm/rosid-handler-ejs#info=dependencies)
 
 A function that loads an Sightly file and transforms it to HTML.
 
@@ -17,27 +17,23 @@ npm install rosid-handler-sightly
 ```js
 const handler = require('rosid-handler-sightly')
 
-handler('index.ejs').then((data) => {})
-handler('index.xml').then((data) => {})
-handler('index.ejs', { optimize: true }).then((data) => {})
-handler('index.ejs', { data: { key: 'value' } }).then((data) => {})
-handler('index.ejs', { data: 'data.json' }).then((data) => {})
+const str = await render(pathToHTL, {data: data})
 ```
 
 ### Rosid
 
-Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes array](https://github.com/electerious/Rosid/blob/master/docs/Routes.md). `rosid-handler-ejs` will transform all matching EJS files in your source folder to HTML.
+Add the following object to your `rosidfile.js` or [routes array](https://github.com/electerious/Rosid/blob/master/docs/Routes.md). `rosid-handler-sightly` will transform all matching HTL files in your source folder to HTML.
 
 ```json
 {
-	"name"    : "EJS",
+	"name"    : "HTL",
 	"path"    : "[^_]*.{html,htl}*",
 	"handler" : "rosid-handler-sightly"
 }
 ```
 
 ```html
-<!-- index.ejs -->
+<!-- index.html / index.htl -->
 <h1>Hello ${'World'}</h1>
 ```
 
@@ -62,7 +58,7 @@ Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes arr
 
 ### Data
 
-The data in `opts.data` will be used to render your template. `opts.data` can either be an object (the data) or a string (path to data file). `rosid-handler-ejs` tries to require the path when a string is specified instead of an object. The path must be absolute or relative to the current working directory.
+The data in `opts.data` will be used to render your template. `opts.data` can either be an object (the data) or a string (path to data file). `rosid-handler-sightly` tries to require the path when a string is specified instead of an object. The path must be absolute or relative to the current working directory.
 
 ### Custom data per file
 
@@ -70,4 +66,4 @@ Create a file with the name `filename.data.json` or `filename.data.js` along you
 
 ### Environment
 
-`rosid-handler-ejs` passes a variable called `environment` to your template. `environment` is `prod` when `opts.optimize` is `true` and `dev` when `opts.optimize` is `false`.
+`rosid-handler-sightly` passes a variable called `environment` to your template. `environment` is `prod` when `opts.optimize` is `true` and `dev` when `opts.optimize` is `false`.

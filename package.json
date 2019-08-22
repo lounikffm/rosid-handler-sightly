@@ -2,7 +2,9 @@
   "name": "rosid-handler-sightly",
   "version": "1.0.2",
   "authors": [
-    "Tobias Reich <tobias@electerious.com>"
+    "Tobias Reich <tobias@electerious.com>",
+    "Louis Schuhmacher <louis@the-shoemakers-ffm.de>",
+    "Dennis Schad <dennis.schad1991@gmail.com"
   ],
   "description": "Load Sightly templates and render them",
   "main": "src/index.js",

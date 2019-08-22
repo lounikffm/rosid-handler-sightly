@@ -7,7 +7,7 @@ const sightly = require('./sightly')
 const data = require('./data')
 
 /**
- * Load EJS and transform to HTML.
+ * Load Sightly/HTL and transform to HTML.
  * @public
  * @param {String} filePath - Absolute path to file.
  * @param {?Object} opts - Options.
@@ -22,7 +22,7 @@ module.exports = async function(filePath, opts = {}) {
 	const json = await data(dataPath, opts)
 	const str = await util.promisify(fs.readFile)(filePath, 'utf8')
 
-	return sightly(str, json)
+	return sightly(str, json, opts)
 
 }
 
