@@ -10,12 +10,12 @@ const sightly = require('@adobe/htlengine/src/main')
  * @returns {Promise<String>} HTML.
  */
 
-module.exports = async function (template, resource, opts) {
-
+module.exports = async function(template, resource, opts) {
+	const prepend = await opts.prepend
+	const append = await opts.append
 	return sightly(resource, `
-		${ typeof opts.prepend === 'string' ? opts.prepend : ''}
-		${ template}
-		${ typeof opts.append === 'string' ? opts.append : ''}
+		${ typeof prepend === 'string' ? prepend : '' }
+		${ template }
+		${ typeof append === 'string' ? append : '' }
 	`)
-
 }
